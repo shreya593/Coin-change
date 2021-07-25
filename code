@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+int dyp(int n,int x,vector<int> v,vector<int> dp){
+int ans=0,mn=INT_MAX;
+if(x==0){
+return 0;
+}
+if(dp[n]!=-1){
+return dp[n];
+}
+for(int i=0; i<n; i++){
+
+if(x-v[i]>=0){
+ans = dyp(n,x-v[i],v,dp);
+//ans = dyp(n,x-v[i],v); don't do this first check whether ans is coming valid,ans should not be INT_MAX
+//there is no way to make the desired x rupee in that case we get ans = INT_MAX which is not valid
+if(ans!=INT_MAX)
+{//after checking if ans correct then increment
+    mn=min(mn,ans+1);
+}
+}
+}
+return dp[n]=mn;
+}
+int main(){
+int n,x,i,k;
+cin>>n>>x;
+vector<int> v;
+vector<int> dp(x+1,-1);
+for(i=0; i<n; i++){
+cin>>k;
+v.push_back(k);
+}
+int y = dyp(n,x,v,dp);
+if(y!=INT_MAX){
+cout<<y;
+}
+else{
+    cout<<"-1";
+}
+    return 0;
+}
